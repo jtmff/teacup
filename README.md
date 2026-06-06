@@ -82,7 +82,25 @@ The app supports three input modes (depending on the selected test):
 ## Run locally
 
 ### 1) Install dependencies
-Create and activate a virtual environment, then install:
 
-```bash
-pip install streamlit numpy pandas scipy
+Create and activate a virtual environment, then install dependencies:
+
+pip install streamlit numpy pandas scipy openpyxl
+
+##  2) Download or clone the repository
+git clone <repository-url>
+cd <repository-folder>
+
+Or download the repository as a ZIP file and extract it.
+
+## 3) Start the application
+
+Open a terminal and navigate to the directory containing app.py:
+
+cd path/to/project
+
+Then launch the Streamlit app using:
+
+streamlit run app.py
+
+Streamlit will start a local server and display a URL in the terminal (typically http://localhost:8501). Open this URL in your web browser to use the application (it often starts a browser on its own).
