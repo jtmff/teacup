@@ -32,6 +32,18 @@ except Exception:
     gaussian_kde = None
 
 
+def _equivalence_ci_t(estimate: float, se: float, df: float, alpha: float):
+    """Return the (1 - 2*alpha) confidence interval used with TOST."""
+    if t_dist is None:
+        raise RuntimeError("scipy is required for confidence interval calculations. Install scipy.")
+    if se < 0 or not np.isfinite(se):
+        raise ValueError("Standard error must be finite and non-negative.")
+    if df <= 0 or not np.isfinite(df):
+        raise ValueError("Degrees of freedom must be finite and positive.")
+    q = float(t_dist.ppf(1.0 - alpha, df))
+    return float(estimate - q * se), float(estimate + q * se)
+
+
 # -------------------------
 # Utility summarizer
 # -------------------------
@@ -124,6 +136,7 @@ def one_sample_tost_from_summary(mean: float, sd: float, n: int, mu0: float, low
     p_low = 1.0 - float(t_dist.cdf(t_low, df))
     t_high = (diff - upper) / se
     p_high = float(t_dist.cdf(t_high, df))
+    ci_lower, ci_upper = _equivalence_ci_t(diff, se, df, alpha)
     details = {
         "mean": float(mean),
         "sd": float(sd),
@@ -131,6 +144,9 @@ def one_sample_tost_from_summary(mean: float, sd: float, n: int, mu0: float, low
         "se": float(se),
         "df": float(df),
         "mean_diff": float(diff),
+        "ci_lower": ci_lower,
+        "ci_upper": ci_upper,
+        "ci_level": float(1.0 - 2.0 * alpha),
         "t_low": float(t_low),
         "t_high": float(t_high),
     }
@@ -180,6 +196,7 @@ def two_sample_pooled_tost_from_summary(m1: float, s1: float, n1: int, m2: float
     p_low = 1.0 - float(t_dist.cdf(t_low, df))
     t_high = (diff - upper) / se
     p_high = float(t_dist.cdf(t_high, df))
+    ci_lower, ci_upper = _equivalence_ci_t(diff, se, df, alpha)
     details = {
         "mean1": float(m1),
         "sd1": float(s1),
@@ -191,6 +208,9 @@ def two_sample_pooled_tost_from_summary(m1: float, s1: float, n1: int, m2: float
         "se": float(se),
         "df": float(df),
         "mean_diff": float(diff),
+        "ci_lower": ci_lower,
+        "ci_upper": ci_upper,
+        "ci_level": float(1.0 - 2.0 * alpha),
         "t_low": float(t_low),
         "t_high": float(t_high),
     }
@@ -243,6 +263,7 @@ def two_sample_welch_tost_from_summary(m1: float, s1: float, n1: int, m2: float,
     p_low = 1.0 - float(t_dist.cdf(t_low, df))
     t_high = (diff - upper) / se
     p_high = float(t_dist.cdf(t_high, df))
+    ci_lower, ci_upper = _equivalence_ci_t(diff, se, df, alpha)
     details = {
         "mean1": float(m1),
         "sd1": float(s1),
@@ -253,6 +274,9 @@ def two_sample_welch_tost_from_summary(m1: float, s1: float, n1: int, m2: float,
         "se": float(se),
         "df": float(df),
         "mean_diff": float(diff),
+        "ci_lower": ci_lower,
+        "ci_upper": ci_upper,
+        "ci_level": float(1.0 - 2.0 * alpha),
         "t_low": float(t_low),
         "t_high": float(t_high),
     }

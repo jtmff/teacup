@@ -192,6 +192,69 @@ def one_sample_vector_from_df(df: pd.DataFrame) -> np.ndarray:
     s = s[~np.isnan(s)]
     return s.astype(float, copy=False)
 
+def ci_heading(alpha: float, details: Optional[dict] = None) -> str:
+    """Return the CI heading that corresponds to the TOST alpha."""
+    try:
+        level = float((details or {}).get("ci_level", 1.0 - 2.0 * alpha))
+    except Exception:
+        level = 1.0 - 2.0 * alpha
+    pct = 100.0 * level
+    if abs(pct - round(pct)) < 1e-9:
+        pct_text = f"{int(round(pct))}%"
+    else:
+        pct_text = f"{pct:.1f}%"
+    return f"{pct_text} confidence interval"
+
+
+def ci_estimate_label(test_choice: str, details: Optional[dict] = None, effect_size_option: Optional[str] = None) -> str:
+    """Human-readable effect estimate label for the CI output."""
+    if test_choice == "One-sample t-test":
+        return "Mean difference"
+    if test_choice in ("Welch t-test (two-sample)", "Pooled t-test (two-sample)"):
+        return "Mean difference (group 1 - group 2)"
+    if test_choice in ("Brunner-Munzel test", "Paired Brunner-Munzel test"):
+        return "Relative effect (theta)"
+    if test_choice == "Two-sample proportions":
+        if effect_size_option == "Difference in proportions":
+            return "Difference in proportions (group 1 - group 2)"
+        if effect_size_option == "Odds ratio":
+            return "Odds ratio"
+        if effect_size_option == "Risk ratio":
+            return "Risk ratio"
+        effect = (details or {}).get("effect_size", "estimate")
+        return str(effect).replace("_", " ").title()
+    return "Estimate"
+
+
+def fmt_ci_value(value, digits: int = 6) -> str:
+    """Format finite and infinite CI values safely for Streamlit output."""
+    try:
+        v = float(value)
+    except Exception:
+        return "NA"
+    if np.isposinf(v):
+        return "inf"
+    if np.isneginf(v):
+        return "-inf"
+    if not np.isfinite(v):
+        return "NA"
+    return f"{v:.{digits}g}"
+
+
+def render_equivalence_ci(details: Optional[dict], alpha: float, test_choice: str, effect_size_option: Optional[str] = None):
+    """Render the TOST-equivalent CI if the backend returned it."""
+    if not isinstance(details, dict):
+        st.write("Confidence interval not available for this result.")
+        return
+    ci_low = details.get("ci_lower")
+    ci_high = details.get("ci_upper")
+    if ci_low is None or ci_high is None:
+        st.write("Confidence interval not available for this result.")
+        return
+    label = ci_estimate_label(test_choice, details, effect_size_option)
+    st.markdown(f"### {ci_heading(alpha, details)}")
+    st.write(f"{label}: **[{fmt_ci_value(ci_low)}, {fmt_ci_value(ci_high)}]**")
+
 # --- generate callback: safe to modify session_state inside this function ---
 def generate_sample_data():
     rng = np.random.default_rng()
@@ -623,6 +686,7 @@ try:
                 st.markdown("### One-sided TOST p-values")
                 st.write(f"p(lower) = **{p_low:.6g}**")
                 st.write(f"p(upper) = **{p_high:.6g}**")
+                render_equivalence_ci(details, alpha, test_choice, globals().get("effect_size_option"))
                 st.markdown("### Difference test (two-sided)")
                 if p_diff is None:
                     if not _HAS_SCIPY:
