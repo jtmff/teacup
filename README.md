@@ -89,8 +89,7 @@ Create and activate a virtual environment, then install dependencies:
 pip install streamlit numpy pandas scipy openpyxl
 
 ###  2) Download or clone the repository
-git clone <repository-url>
-cd <repository-folder>
+git clone https://github.com/jtmff/teacup.git
 
 Or download the repository as a ZIP file and extract it.
 
