@@ -25,7 +25,7 @@ The online app enables you to:
 ## Tests available in the GUI
 
 ### T-tests (mean / mean difference)
-Use these when your outcome is approximately continuous and you’re comfortable with mean-based inference.
+Use these when your outcome is approximately continuous and you’re comfortable with mean-based comparison.
 
 - **Welch t-test (two-sample)** — two independent groups, does *not* assume equal variances.
 - **Pooled t-test (two-sample)** — two independent groups, assumes equal variances.
@@ -63,10 +63,11 @@ The app supports three input modes (depending on the selected test):
 
 1. **Upload file** (`.csv`, `.xls`, `.xlsx`)
    (The folder 'sample files' has examples for one- and two-sample tests. They do not produce particularly interesting results, they just serve as an illustration of how the input format looks.)
-2. **Paste table** (comma- or tab-separated)
+2. **Paste table** (comma- or tab-separated; you can use the button "Generate sample data" underneath the textbox to generate random data that illustrate the input format. )
 3. **Summary statistics (manual)** *(t-tests only)*  
    - Two-sample: mean, SD, n for each group  
    - One-sample: mean, SD, n
+
 
 ### Expected shapes (quick guide)
 
