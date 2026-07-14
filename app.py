@@ -574,13 +574,18 @@ try:
                         raise ValueError("Paired Brunner-Munzel test requires equal-length columns.")
                     p_low, p_high, details = be.paired_brunner_munzel_tost(x, y, lower, upper, alpha)
                     test_warnings = details.get("warnings", [])
-                    # Two-sided test: use Mann-Whitney as a reference p-value
+                    # Two-sided test: use Wilcoxon signed-rank as a paired reference p-value
+                    # (Mann-Whitney U would incorrectly treat the paired columns as independent groups.)
                     if _HAS_SCIPY:
                         try:
-                            _, pval = stats.mannwhitneyu(x, y, alternative="two-sided")
-                        except TypeError:
-                            _, pval = stats.mannwhitneyu(x, y)
-                        p_diff = float(pval)
+                            try:
+                                _, pval = stats.wilcoxon(x, y, alternative="two-sided")
+                            except TypeError:
+                                _, pval = stats.wilcoxon(x, y)
+                            p_diff = float(pval)
+                        except ValueError:
+                            # e.g. all paired differences are zero
+                            p_diff = None
 
                 # elif test_choice == "Paired concordance test":  # Hidden for now
                 #     diffs = one_sample_vector_from_df(df_use)

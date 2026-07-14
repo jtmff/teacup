@@ -1,6 +1,6 @@
-# TEQUILA — Equivalence testing (TOST)
+# TEACUP — Equivalence testing (TOST)
 
-TEQUILA is a small Streamlit web app for running **equivalence tests** using the **Two One-Sided Tests (TOST)** approach. It’s designed to make equivalence testing easy from a GUI: upload (or paste) your data, choose a test, set equivalence bounds, and run.
+TEACUP is a small Streamlit web app for running **equivalence tests** using the **Two One-Sided Tests (TOST)** approach. It’s designed to make equivalence testing easy from a GUI: upload (or paste) your data, choose a test, set equivalence bounds, and run.
 
 ## Live app
 
