@@ -51,7 +51,7 @@ with st.sidebar:
     header_override = st.selectbox("Header detection override", ["Auto-detect", "Force header", "Force no header"])    
     st.markdown("---")
     st.caption("**Links**")
-    st.link_button("Code on GitHub", "https://github.com/jtmff/teacup")
+    st.link_button("Code and instructions on GitHub", "https://github.com/jtmff/teacup")
     st.link_button("Buy me a coffee ☕", "https://buymeacoffee.com/teacup_equivtest")
     st.markdown("---")
     st.caption("Contact")
