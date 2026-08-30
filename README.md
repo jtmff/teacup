@@ -3,6 +3,7 @@
 TEACUP is a small Streamlit web app for running **equivalence tests** using the **Two One-Sided Tests (TOST)** approach. It’s designed to make equivalence testing easy from a GUI: upload (or paste) your data, choose a test, set equivalence bounds, and run.
 
 **Publication:** https://www.pnas.org/doi/10.1073/pnas.2611548123
+
 **Author-accepted version (no paywall):** https://ora.ox.ac.uk/objects/uuid:b6148612-0999-424a-b57a-c3305b550d85
 
 ## Live app
