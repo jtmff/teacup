@@ -56,6 +56,9 @@ with st.sidebar:
     st.markdown("---")
     st.caption("Contact")
     st.write("Email: jakub.tomek@dpag.ox.ac.uk")
+    st.markdown("---")
+    st.caption("**Publication**")
+    st.markdown("[PNAS](https://www.pnas.org/doi/10.1073/pnas.2611548123) · [Open version](https://ora.ox.ac.uk/objects/uuid:b6148612-0999-424a-b57a-c3305b550d85)")
 
 
 left_col, right_col = st.columns([2, 1])
@@ -622,7 +625,7 @@ try:
 
                     test_warnings = details.get("warnings", [])
 		    
-	            # Test for differences
+                    # Test for differences
                     p_diff = float(be.proportions_wald_test_difference(x1, n1_p, x2, n2_p, pooled=False, alternative="two-sided"))
 
 
