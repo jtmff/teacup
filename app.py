@@ -54,7 +54,7 @@ with st.sidebar:
     st.link_button("Code and instructions on GitHub", "https://github.com/jtmff/teacup")
     st.link_button("Buy me a coffee ☕", "https://buymeacoffee.com/teacup_equivtest")
     st.markdown("---")
-    st.caption("Contact")
+    st.caption("**Contact**")
     st.write("Email: jakub.tomek@dpag.ox.ac.uk")
     st.markdown("---")
     st.caption("**Publication**")
