@@ -53,12 +53,13 @@ with st.sidebar:
     st.caption("**Links**")
     st.link_button("Code and instructions on GitHub", "https://github.com/jtmff/teacup")
     st.link_button("Buy me a coffee ☕", "https://buymeacoffee.com/teacup_equivtest")
-    st.markdown("---")
-    st.caption("**Contact**")
-    st.write("Email: jakub.tomek@dpag.ox.ac.uk")
-    st.markdown("---")
+	st.markdown("---")
     st.caption("**Publication**")
     st.markdown("[PNAS](https://www.pnas.org/doi/10.1073/pnas.2611548123) · [Open version](https://ora.ox.ac.uk/objects/uuid:b6148612-0999-424a-b57a-c3305b550d85)")
+    st.markdown("---")
+    st.caption("**Contact**")
+    st.write("Email: jakub.tomek.mff@gmail.com")
+    
 
 
 left_col, right_col = st.columns([2, 1])
